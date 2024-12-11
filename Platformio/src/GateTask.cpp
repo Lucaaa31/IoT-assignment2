@@ -13,20 +13,14 @@ GateTask::GateTask(int button1Pin, int button2Pin, ContainerProp& container, LCD
 void GateTask::init(int period) {
     Task::init(period);
 }
-/**
- * 1 --> può aprire
- * 2 --> aperto
- * 3 --> non aprire
- */
 
 void GateTask::tick() {
-    gate.checkServo();
+    Serial.println(gate.getState());
     if (!container.genericAllarm()){
         if (allarmOn == true && gate.getState() == NOT_AVAILABLE){
             gate.setState(AVAILABLE);
             allarmOn = false;
         }
-        
         switch (gate.getState()){
             case AVAILABLE:
                 handleAvailableState();
@@ -49,7 +43,6 @@ void GateTask::handleAvailableState(){
     lcdManager.setMessage(LCD_1);
     if (open->isPressed()){
         lcdManager.setMessage(LCD_2);
-        //timer.startTimer(30);
         gate.openGate();
     }
 }
@@ -64,6 +57,6 @@ void GateTask::handleOpenState(){
 void GateTask::handleNotAvaiableState(){
     if (gate.isTimerElapsed()){
         lcdManager.setMessage(LCD_1);
-        gate.setState(1);
+        gate.setState(AVAILABLE);
     }
 }

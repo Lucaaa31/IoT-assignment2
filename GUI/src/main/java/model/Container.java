@@ -39,6 +39,7 @@ public class Container {
         this.maxTemp = maxTemp;
     }
     public void empty() {
+        System.out.println("Emptying container");
         this.full = false;
         this.wastelvl = 0;
     }

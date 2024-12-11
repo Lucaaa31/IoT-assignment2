@@ -6,7 +6,8 @@
     const float temperature = 20;
     const float vs = 331.45 + 0.62*temperature;
 
-    WasteLevelTask :: WasteLevelTask (int pinTrig, int pinEcho, ContainerProp& container) : container(container){
+    WasteLevelTask :: WasteLevelTask (int pinTrig, int pinEcho, ContainerProp& container, LCDManager& lcdManager) 
+    : container(container), lcdManager(lcdManager){
         this->pinTrig = pinTrig;
         this->pinEcho = pinEcho;
     }
@@ -19,8 +20,12 @@
     }
 
     void WasteLevelTask :: tick(){
-        //Serial.begin(9600);
-        this->container.setWasteLevel(this->readLevel()); 
+        int level = this->readLevel();
+        this->container.setWasteLevel(level); 
+        if (level >= MAX_PERC_LEVEL){
+            this->container.setFull(true);
+            lcdManager.setMessage(LCD_4);
+        }
     }
 
     int WasteLevelTask:: readLevel(){
@@ -34,8 +39,6 @@
         float tUS = pulseIn(this->pinEcho, HIGH);
         float t = tUS / 1000.0 / 1000.0 / 2;
         float d = t*vs;
-
-        
 
         int percLevel = ((MAX_CONT_LEVEL - (d*100) + SONAR_HEIGHT) * 100)/MAX_CONT_LEVEL;
         

@@ -13,7 +13,6 @@ void SerialCommTask::init(int period){
 
 
 void SerialCommTask::tick(){
-    
     if (container.isFull() && !this->msgFullSent ){
         msgFullSent = true;
         MsgService.sendMsg("F");   
@@ -22,7 +21,6 @@ void SerialCommTask::tick(){
         msgFullSent = true;
         MsgService.sendMsg("A");   
     }
-
     receive();
 }
 
@@ -36,13 +34,11 @@ void SerialCommTask::receive(){
             this->msgFullSent = false;
             this->container.emptyContainer();
             gate.emptyGate();
-        } else if (msg->getContent() == "X"){
+        } else{
             send();
         }
-        
         delete msg;
     }
-
 }
 
 void SerialCommTask::send(){

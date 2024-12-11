@@ -7,7 +7,6 @@ Gate::Gate(int pinServo) {
     servo.write(90);
     currentDir = 12002;
     timer = TickCounter();
-    detachCounter = DETACH_TICK;
 }
 
 int Gate::getState() {
@@ -38,7 +37,6 @@ bool Gate::isTimerElapsed(){
     }
 }
 
-
 void Gate::move(int dir){
     if (dir == 0 || dir == 180){
         currentState = OPEN;
@@ -47,8 +45,6 @@ void Gate::move(int dir){
     } 
 
     if (dir != currentDir){
-        servo.attach(pinServo);
-        detachCounter = DETACH_TICK;
         servo.write(dir);
         currentDir = dir;
     }
@@ -60,9 +56,4 @@ void Gate::setState(int gateState){
     currentState = gateState;
 }
 
-void Gate::checkServo(){
-    detachCounter--;
-    if (detachCounter <= 0){
-        servo.detach();
-    }
-}
+

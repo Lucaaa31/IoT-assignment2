@@ -11,6 +11,7 @@ public:
   void setWasteLevel(int level);
   void setTempLevel(int level);
   void setAllarm(bool state);
+  void setFull(bool state);
   int getWasteLevel();
   int getTempLevel();
   void restoreAllarm();
@@ -20,10 +21,9 @@ public:
 private:
   LCDManager& lcdManager;
   int contLevel;
-  int tempCount;
   int tempLevel;
-  bool full;
   bool allarm;
+  bool full;
 };
 
 #endif

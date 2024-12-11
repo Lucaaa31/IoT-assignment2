@@ -37,7 +37,7 @@ void setup() {
   Task* allarmTask = new AllarmTask(A1, container, lcdManager);
   allarmTask->init(1000);
   
-  Task* wasteLevelTast = new WasteLevelTask(12, 11, container);
+  Task* wasteLevelTast = new WasteLevelTask(12, 11, container, lcdManager);
   wasteLevelTast->init(200);
 
 
